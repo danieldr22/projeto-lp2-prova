@@ -185,3 +185,8 @@ Desktop.ini
 *.db
 *.sqlite
 *.sqlite3
+
+# Ignore imagens folders
+motos_vermelha/*
+motos_azul/*
+outras_imagens/*
