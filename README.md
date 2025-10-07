@@ -52,3 +52,8 @@ Observe qualquer mensagem de erro ou aviso exibida no terminal enquanto o script
 
 Limite de Requisições da API:
 Se você estiver processando um grande volume de imagens rapidamente, pode ser que você atinja o limite de requisições da API do Gemini. Consulte a documentação da API para verificar os limites e considerar adicionar pausas no script (usando time.sleep()) entre as requisições se isso for um problema.
+
+
+Sobre a API e o Modelo Gemini:
+Este projeto utiliza a API do Google Gemini para realizar a classificação de imagens. Inicialmente, o objetivo era empregar o modelo Gemini 1.5 devido às suas capacidades avançadas. No entanto, por questões de disponibilidade e acesso via API, a implementação atual faz uso do modelo Gemini 2.5 Pro (ou uma versão similar acessível pela API gemini-pro-vision), que também oferece excelente performance para tarefas de visão computacional.
+Para mais detalhes sobre a API e os modelos Gemini, você pode consultar a documentação oficial do Google AI Studio e da biblioteca google-generativeai.
