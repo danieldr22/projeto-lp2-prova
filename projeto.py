@@ -2,16 +2,16 @@ import os
 import shutil
 import google.generativeai as genai
 
-# === CONFIGURA GEMINI ===
+
 try:
     genai.configure(api_key='SUA_CHAVE_AQUI')  # coloque sua chave aqui
 except AttributeError:
     print("ERRO: Configure sua chave de API do Google!")
     exit()
 
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-2.5-flash')
 
-# === SELECIONA PASTA DE ORIGEM ===
+
 pasta_origem = ""
 while not os.path.isdir(pasta_origem):
     print("\nPor favor, arraste a pasta que contém suas imagens para esta janela e pressione Enter.")
@@ -22,7 +22,7 @@ while not os.path.isdir(pasta_origem):
 
 print(f"\nPasta selecionada: {pasta_origem}\n")
 
-# === PASTAS DE DESTINO ===
+
 pasta_moto_azul = 'motos_azuis_classificadas'
 pasta_moto_vermelha = 'motos_vermelhas_classificadas'
 pasta_nao_moto = 'outras_imagens_classificadas'
@@ -30,10 +30,10 @@ pasta_nao_moto = 'outras_imagens_classificadas'
 for pasta in [pasta_moto_azul, pasta_moto_vermelha, pasta_nao_moto]:
     os.makedirs(pasta, exist_ok=True)
 
-# === EXTENSÕES VÁLIDAS ===
+
 extensoes_validas = ['.jpg', '.jpeg', '.png', '.webp']
 
-# === PROCESSAMENTO DAS IMAGENS ===
+
 for nome_arquivo in os.listdir(pasta_origem):
     caminho_arquivo = os.path.join(pasta_origem, nome_arquivo)
 
