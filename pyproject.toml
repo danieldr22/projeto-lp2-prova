@@ -1,0 +1,7 @@
+[project]
+name = "projeto-lp2-prova"
+version = "0.1.0"
+description = "Reconhecimento de cor de imagens de motos."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
