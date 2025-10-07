@@ -1,8 +1,12 @@
-import google.generativeai as genai
 import os
 import shutil
-from pathlib import Path
+import google.generativeai as genai
 
-GOOGLE_API_KEY : AIzaSyCH3XRFAGQdWE8-7NKUMgLxzkJ6LNbiCJA
+try:
+    genai.configure(api_key='AIzaSyCH3XRFAGQdWE8-7NKUMgLxzkJ6LNbiCJA')
+except AttributeError:
+    print("ERRO: Configure sua chave de API do Google!")
+    exit()
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 
