@@ -1,59 +1,71 @@
 # projeto-lp2-prova
 
-Classificador de Imagens de Motos
-
-Este projeto em Python utiliza a API do Google Gemini para classificar imagens em três categorias: moto cor azul, moto cor vermelha e não moto. O script analisa todas as imagens em uma pasta de origem e as move automaticamente para pastas separadas de acordo com a classificação.
-
-Para usar o projeto, siga estes passos:
-
-Instale Python 3.9 ou superior.
-
-Instale a biblioteca necessária com o comando: pip install google-generativeai
-
-Obtenha uma chave de API do Google Gemini e insira no script na linha: genai.configure(api_key="SUA_CHAVE_AQUI")
-
-Crie uma pasta com suas imagens. O script suporta arquivos nos formatos jpg, jpeg, png e webp.
-
-Execute o script. Ele pedirá que você informe o caminho da pasta de imagens.
-
-O script criará três pastas de saída automaticamente: motos_azuis_classificadas motos_vermelhas_classificadas outras_imagens_classificadas e moverá cada imagem para a pasta correta de acordo com a classificação.
-
-Após a execução, todas as imagens estarão organizadas de forma automática, separadas por tipo e cor.
-
-Versão 1.0.0 – solução mínima funcional com Google Gemini para classificação de imagens de motos, pronta para uso ou para melhorias futuras.
+Projeto de Detecção e Classificação de Motos por Cor
+Este projeto Python utiliza Visão Computacional para detectar motos em imagens, limpar seus fundos, e classificar as motos detectadas como "vermelhas" ou "azuis" com base na cor dominante. Imagens que não contêm motos vermelhas ou azuis são movidas para uma pasta de "outras imagens".
 
 
-#Solução de Problemas (Troubleshooting)
+Estrutura do Projeto
+code
+Code
+.
+├── storage/
+│   ├── frozen_inference_graph.pb  # Modelo SSD MobileNet V3 pré-treinado (pesos)
+│   └── ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt # Arquivo de configuração do modelo
+├── imagens/                     # Pasta onde as imagens de entrada devem ser colocadas
+├── motos_vermelha/              # Saída: Motos detectadas e classificadas como vermelhas
+├── motos_azul/                  # Saída: Motos detectadas e classificadas como azuis
+├── outras_imagens/              # Saída: Imagens que não se enquadram nas categorias acima
+├── temp/                        # Pasta temporária para imagens com fundo limpo
+├── detecta_cor_dominante.py     # Módulo para detecção da cor dominante
+├── limpar_fundo.py              # Módulo para remoção de fundo
+├── salvar_imagem.py             # Módulo para salvar imagens nas pastas corretas
+└── main.py                      # Script principal que orquestra o processo
 
-Se o script não estiver funcionando como esperado, verifique os seguintes pontos:
-Chave de API:
+Funcionalidades
 
-Certifique-se de que sua chave de API do Google Gemini está correta e ativa. Uma chave inválida ou expirada pode impedir a comunicação com a API.
+Detecção de Objetos: Utiliza um modelo pré-treinado SSD MobileNet V3 para identificar motos em imagens.
 
-Verifique se a chave foi inserida corretamente no script, sem espaços extras ou caracteres incorretos.
+Remoção de Fundo: Antes da detecção de cor, o fundo da imagem é removido para isolar o objeto principal (a moto).
 
-Conexão com a Internet:
-O script requer uma conexão ativa com a internet para se comunicar com a API do Google Gemini. Verifique sua conexão.
-Dependências:
-Confirme se a biblioteca google-generativeai foi instalada corretamente. Tente reinstalá-la usando pip install google-generativeai --upgrade para garantir que você tenha a versão mais recente.
+Detecção de Cor Dominante: Analisa a região da moto detectada para determinar sua cor dominante (vermelha, azul ou outras).
 
-Caminho da Pasta:
-Verifique se o caminho da pasta de imagens que você informou ao script está correto. Erros de digitação ou caminhos inexistentes impedirão o script de encontrar suas imagens.
+Classificação e Organização: Salva as imagens originais das motos detectadas em pastas específicas (motos_vermelha, motos_azul) ou em outras_imagens se a moto não for vermelha ou azul, ou se nenhuma moto for detectada.
 
-Formatos de Imagem:
-Certifique-se de que as imagens na sua pasta estão nos formatos suportados (jpg, jpeg, png, webp). O script pode ignorar ou falhar ao processar outros formatos.
-Caso suas imagens estejam em outros formatos, você pode convertê-las ou adaptar o script para suportá-los.
+Tecnologias Utilizadas
+Python 3.x
+OpenCV (cv2): Para processamento de imagem, detecção de objetos e operações de arquivo.
+DNN (Deep Neural Network) Module do OpenCV: Para carregar e executar o modelo de detecção de objetos.
+SSD MobileNet V3: Modelo de detecção de objetos pré-treinado no conjunto de dados COCO.
 
-Permissões:
-Verifique se o script tem permissão para ler as imagens na pasta de origem e para criar/mover arquivos nas pastas de destino. Problemas de permissão podem ocorrer em sistemas operacionais como Linux/macOS ou em redes.
+Como Configurar e Executar
+Pré-requisitos
 
-Saída do Script (Logs):
-Observe qualquer mensagem de erro ou aviso exibida no terminal enquanto o script está em execução. Essas mensagens podem fornecer pistas sobre a causa do problema.
+Certifique-se de ter o Python 3.x e o OpenCV instalados. Você pode instalar o OpenCV com pip:
+pip install opencv-python numpy
 
-Limite de Requisições da API:
-Se você estiver processando um grande volume de imagens rapidamente, pode ser que você atinja o limite de requisições da API do Gemini. Consulte a documentação da API para verificar os limites e considerar adicionar pausas no script (usando time.sleep()) entre as requisições se isso for um problema.
+Preparação do Ambiente
+Clone o repositório:
+git clone https://github.com/danieldr22/projeto-lp2-prova.git # Se este for o seu repositório
+cd projeto-lp2-prova
 
+Modelos DNN: Certifique-se de que os arquivos do modelo DNN (frozen_inference_graph.pb e ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt) estejam presentes na pasta storage/. Se não estiverem, você precisará baixá-los. (Geralmente, esses modelos podem ser encontrados em repositórios do OpenCV ou TensorFlow).
 
-Sobre a API e o Modelo Gemini:
-Este projeto utiliza a API do Google Gemini para realizar a classificação de imagens. Inicialmente, o objetivo era empregar o modelo Gemini 1.5 devido às suas capacidades avançadas. No entanto, por questões de disponibilidade e acesso via API, a implementação atual faz uso do modelo Gemini 2.5 Pro (ou uma versão similar acessível pela API gemini-pro-vision), que também oferece excelente performance para tarefas de visão computacional.
-Para mais detalhes sobre a API e os modelos Gemini, você pode consultar a documentação oficial do Google AI Studio e da biblioteca google-generativeai.
+Imagens de Entrada: Coloque as imagens que você deseja processar na pasta imagens/.
+
+Executando o Script
+Abra o terminal na raiz do projeto.
+
+Execute o script principal:
+python main.py
+
+O script criará as pastas de saída (motos_vermelha, motos_azul, outras_imagens, temp) se elas não existirem, processará cada imagem em imagens/, e organizará as imagens resultantes.
+Observações
+
+O script criará arquivos temporários na pasta temp/ para as imagens com fundo limpo. Esses arquivos são excluídos ao final da execução.
+A precisão da detecção de cor pode variar dependendo da iluminação da imagem e da complexidade do objeto.
+Detalhes dos Módulos
+
+detecta_cor_dominante.py: Provavelmente contém uma função que recebe uma imagem (ROI) e retorna a cor dominante (e talvez sua porcentagem).
+limpar_fundo.py: Contém uma função que recebe o caminho de uma imagem e retorna (ou salva) a imagem com o fundo removido. Isso geralmente envolve técnicas como GrabCut ou modelos de segmentação de fundo.
+
+salvar_imagem.py: Contém uma função utilitária para copiar ou mover imagens para as pastas de destino especificadas.
