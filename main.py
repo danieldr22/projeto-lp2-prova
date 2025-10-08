@@ -37,11 +37,14 @@ def detecta_imagem(model, imagem, path_normal):
                     print(f"Moto {cor} detectada! ({percentual:.1f}% da cor)")
                     if cor == "vermelha":
                         salvar_imagem(PATHIMAGESVERMELHA, path_normal)
+                        return
                     else:
                         salvar_imagem(PATHIMAGESAZUL, path_normal)
+                        return
 
                 else:
                     print(f"Moto detectada, mas não é vermelha nem azul")
+                    salvar_imagem(PATHOUTROSIMAGENS, path_normal)
             return
 
     salvar_imagem(PATHOUTROSIMAGENS, path_normal)
